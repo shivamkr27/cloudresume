@@ -1,20 +1,25 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import SectionTag from "./SectionTag";
+import { useReveal } from "@/lib/useReveal";
+import { withBasePath } from "@/lib/basePath";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 const ENTRIES = [
   {
+    id: "01",
     role: "Web Development Intern",
-    company: "Sunrays Logistics, Mumbai",
+    company: "Sunrays Logistics",
+    location: "Mumbai",
     logo: "/logos/sunrays.png",
     dates: "Jun 2025 – Jul 2025",
+    tags: ["WhatsApp API", "Web Performance", "Lighthouse", "Process Automation"],
     bullets: [
       "Integrated a WhatsApp click-to-chat button via the wa.me API for instant client conversations.",
       "Converted images to WebP and added lazy loading — Lighthouse score ~65 → 92+.",
@@ -22,10 +27,13 @@ const ENTRIES = [
     ],
   },
   {
+    id: "02",
     role: "Frontend Developer Intern",
     company: "Xebia",
+    location: "Remote",
     logo: "/logos/xebia.png",
     dates: "Jun 2026 – Jul 2026",
+    tags: ["React", "Tailwind CSS", "REST APIs", "Feature Flags"],
     bullets: [
       "Built the Configuration module of a University Management System dashboard in React and Tailwind CSS.",
       "Developed reusable UI components — card navigation, feature-flag toggles, validated forms.",
@@ -34,18 +42,13 @@ const ENTRIES = [
   },
 ];
 
-// One full sine cycle per this many pixels of scroll — long wavelength
-// keeps the motion slow and gentle rather than jittery.
-const WAVE_LENGTH = 900;
-const AMPLITUDE_PX = 8; // vertical bob — kept subtle on purpose
-const TILT_DEG = 1.8; // rotateX tilt — kept subtle on purpose
-
 export default function Experience() {
   const sectionRef = useRef<HTMLElement>(null);
   const lineRef = useRef<HTMLDivElement>(null);
-  const cardRefs = useRef<Array<HTMLDivElement | null>>([]);
 
-  // timeline line draw-in — unchanged from before, untouched by the wave logic
+  useReveal(sectionRef, { selector: "[data-reveal-entry]" });
+
+  // timeline line draw-in, scrubbed to scroll position
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
@@ -79,65 +82,6 @@ export default function Experience() {
     { scope: sectionRef }
   );
 
-  // continuous scroll-linked wave through the content boxes — a single sine
-  // field in document space, sampled at each card's top/mid/bottom edge, so
-  // the motion is unbroken across box boundaries rather than two separate
-  // per-card animations.
-  useEffect(() => {
-    const reducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-    if (reducedMotion) return;
-
-    const isMobile = window.innerWidth < 768;
-    const amplitude = isMobile ? AMPLITUDE_PX * 0.5 : AMPLITUDE_PX;
-    const tilt = isMobile ? TILT_DEG * 0.5 : TILT_DEG;
-
-    let raf = 0;
-    let ticking = false;
-
-    const waveAt = (docY: number, scrollY: number) =>
-      Math.sin(((docY - scrollY) / WAVE_LENGTH) * Math.PI * 2);
-
-    function update() {
-      ticking = false;
-      const scrollY = window.scrollY;
-
-      cardRefs.current.forEach((card) => {
-        if (!card) return;
-        const rect = card.getBoundingClientRect();
-        const topY = rect.top + scrollY;
-        const bottomY = rect.bottom + scrollY;
-        const midY = (topY + bottomY) / 2;
-
-        const wTop = waveAt(topY, scrollY);
-        const wBottom = waveAt(bottomY, scrollY);
-        const wMid = waveAt(midY, scrollY);
-
-        const translateY = wMid * amplitude;
-        const rotateX = (wTop - wBottom) * tilt;
-
-        card.style.transform = `translateY(${translateY.toFixed(2)}px) rotateX(${rotateX.toFixed(2)}deg)`;
-      });
-    }
-
-    function onScrollOrResize() {
-      if (ticking) return;
-      ticking = true;
-      raf = requestAnimationFrame(update);
-    }
-
-    update();
-    window.addEventListener("scroll", onScrollOrResize, { passive: true });
-    window.addEventListener("resize", onScrollOrResize);
-
-    return () => {
-      cancelAnimationFrame(raf);
-      window.removeEventListener("scroll", onScrollOrResize);
-      window.removeEventListener("resize", onScrollOrResize);
-    };
-  }, []);
-
   return (
     <section
       ref={sectionRef}
@@ -153,18 +97,11 @@ export default function Experience() {
           className="absolute left-[5px] top-2 bottom-2 w-px origin-top bg-amber md:left-[7px]"
         />
 
-        <div
-          className="flex flex-col gap-6 [perspective:1200px] md:gap-8"
-        >
-          {ENTRIES.map((entry, i) => (
-            <div key={entry.company} className="relative">
-              <span className="absolute -left-8 top-6 h-[11px] w-[11px] rounded-full border-2 border-amber bg-ink md:-left-10 md:top-8 md:h-[15px] md:w-[15px]" />
-              <ExperienceCard
-                entry={entry}
-                cardRef={(el) => {
-                  cardRefs.current[i] = el;
-                }}
-              />
+        <div className="flex flex-col gap-10 md:gap-14">
+          {ENTRIES.map((entry) => (
+            <div key={entry.company} className="relative" data-reveal-entry>
+              <span className="absolute -left-8 top-8 h-[11px] w-[11px] rounded-full border-2 border-amber bg-ink md:-left-10" />
+              <ExperienceCard entry={entry} />
             </div>
           ))}
         </div>
@@ -173,53 +110,72 @@ export default function Experience() {
   );
 }
 
-function ExperienceCard({
-  entry,
-  cardRef,
-}: {
-  entry: (typeof ENTRIES)[number];
-  cardRef: (el: HTMLDivElement | null) => void;
-}) {
+function ExperienceCard({ entry }: { entry: (typeof ENTRIES)[number] }) {
   const [logoError, setLogoError] = useState(false);
 
   return (
     <div
-      ref={cardRef}
-      className="flex flex-col gap-4 rounded-2xl border border-white/10 bg-ink-raised p-6 will-change-transform sm:flex-row sm:gap-5 md:p-8"
+      className="group relative overflow-hidden rounded-2xl border border-white/10 bg-ink-raised p-6 transition-all duration-300 hover:-translate-y-1 hover:border-amber/40 hover:shadow-[0_20px_50px_-20px_rgba(201,151,77,0.35)] md:p-8"
     >
-      <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-white/10 bg-ink">
-        {logoError ? (
-          <span className="font-display text-base font-semibold text-amber">
-            {entry.company.charAt(0)}
-          </span>
-        ) : (
-          <div className="relative h-8 w-8">
-            <Image
-              src={entry.logo}
-              alt={`${entry.company} logo`}
-              fill
-              className="object-contain"
-              onError={() => setLogoError(true)}
-            />
-          </div>
-        )}
-      </div>
+      <span className="pointer-events-none absolute -right-4 -top-6 font-display text-[7rem] font-semibold leading-none text-white/[0.03] transition-colors duration-300 group-hover:text-amber/[0.06] md:text-[9rem]">
+        {entry.id}
+      </span>
 
-      <div className="flex flex-col gap-1.5">
-        <p className="font-mono text-xs uppercase tracking-widest text-amber">
-          {entry.dates}
-        </p>
-        <h3 className="font-display text-lg font-semibold text-paper md:text-xl">
-          {entry.role}
-        </h3>
-        <p className="text-sm text-paper-dim">{entry.company}</p>
-        <ul className="mt-1 flex flex-col gap-1">
+      <div className="relative flex flex-col gap-5">
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-white/10 bg-ink transition-transform duration-300 group-hover:scale-105">
+              {logoError ? (
+                <span className="font-display text-lg font-semibold text-amber">
+                  {entry.company.charAt(0)}
+                </span>
+              ) : (
+                <div className="relative h-full w-full">
+                  <Image
+                    src={withBasePath(entry.logo)}
+                    alt={`${entry.company} logo`}
+                    fill
+                    className="object-cover"
+                    onError={() => setLogoError(true)}
+                  />
+                </div>
+              )}
+            </div>
+
+            <div>
+              <h3 className="font-display text-lg font-semibold text-paper md:text-xl">
+                {entry.role}
+              </h3>
+              <p className="text-sm text-paper-dim">
+                {entry.company} <span className="text-paper-dim/50">·</span> {entry.location}
+              </p>
+            </div>
+          </div>
+
+          <span className="rounded-full border border-white/10 px-3 py-1 font-mono text-[11px] uppercase tracking-widest text-amber">
+            {entry.dates}
+          </span>
+        </div>
+
+        <ul className="flex flex-col gap-2">
           {entry.bullets.map((bullet, i) => (
-            <li key={i} className="text-sm leading-relaxed text-paper-dim">
+            <li key={i} className="flex gap-2.5 text-sm leading-relaxed text-paper-dim md:text-base">
+              <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-amber/60" />
               {bullet}
             </li>
           ))}
         </ul>
+
+        <div className="flex flex-wrap gap-2 border-t border-white/5 pt-4">
+          {entry.tags.map((tag) => (
+            <span
+              key={tag}
+              className="rounded-full border border-white/10 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wide text-paper-dim transition-colors duration-300 group-hover:border-amber/20 group-hover:text-paper"
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
       </div>
     </div>
   );

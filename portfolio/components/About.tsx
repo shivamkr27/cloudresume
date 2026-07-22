@@ -7,6 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import SectionTag from "./SectionTag";
 import { useReveal } from "@/lib/useReveal";
+import { withBasePath } from "@/lib/basePath";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -141,7 +142,7 @@ export default function About() {
             ) : (
               <Image
                 key={PHOTO_CANDIDATES[candidateIndex]}
-                src={PHOTO_CANDIDATES[candidateIndex]}
+                src={withBasePath(PHOTO_CANDIDATES[candidateIndex])}
                 alt="Shivam"
                 fill
                 sizes="(max-width: 768px) 280px, 340px"

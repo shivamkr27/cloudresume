@@ -5,6 +5,7 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import SectionTag from "./SectionTag";
 import { useReveal } from "@/lib/useReveal";
+import { withBasePath } from "@/lib/basePath";
 
 const PROJECTS = [
   {
@@ -83,7 +84,7 @@ export default function Projects() {
                 className="relative h-full w-full"
               >
                 <Image
-                  src={PROJECTS[active].cover}
+                  src={withBasePath(PROJECTS[active].cover)}
                   alt={`${PROJECTS[active].name} screenshot`}
                   fill
                   sizes="50vw"
@@ -156,7 +157,7 @@ function ProjectEntry({
 
       <div className="relative mt-2 aspect-video overflow-hidden rounded-lg border border-white/10 bg-ink md:hidden">
         <Image
-          src={project.cover}
+          src={withBasePath(project.cover)}
           alt={`${project.name} screenshot`}
           fill
           loading="lazy"
