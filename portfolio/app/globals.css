@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: auto;
+}
+
+body {
+  background-color: theme("colors.ink");
+  color: theme("colors.paper");
+  font-feature-settings: "ss01" on, "ss02" on;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background-color: theme("colors.amber.DEFAULT");
+  color: theme("colors.ink");
+}
+
+/* word/line reveal mask */
+.reveal-mask {
+  overflow: hidden;
+  display: inline-block;
+}
+
+.reveal-mask > * {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
