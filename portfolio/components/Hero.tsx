@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import HeroGalaxy from "./HeroGalaxy";
+import VisitorCounter from "./VisitorCounter";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -93,13 +94,14 @@ export default function Hero() {
     >
       <HeroGalaxy />
 
-      <div className="relative z-10 flex items-center justify-between">
+      <div className="pointer-events-none relative z-10 flex items-center justify-between">
         <span className="font-display text-lg font-semibold tracking-tight text-paper md:text-xl">
           Shivam<span className="text-amber">.</span>
         </span>
+        <VisitorCounter />
       </div>
 
-      <div className="relative z-10 flex flex-col gap-5 md:gap-6 lg:max-w-[58%]">
+      <div className="pointer-events-none relative z-10 flex flex-col gap-5 md:gap-6 lg:max-w-[58%]">
         <h1 className="font-display text-[13vw] font-semibold leading-[0.95] tracking-tightest text-paper md:text-[7vw] lg:text-[6.5vw]">
           {HEADLINE_WORDS.map((word, i) => (
             <span key={i} className="reveal-mask mr-[0.22em]">
@@ -133,7 +135,7 @@ export default function Hero() {
 
       <div
         ref={markerRef}
-        className="relative z-10 flex items-end justify-between font-mono text-xs uppercase tracking-widest text-paper-dim"
+        className="pointer-events-none relative z-10 flex items-end justify-between font-mono text-xs uppercase tracking-widest text-paper-dim"
       >
         <span className="flex items-center gap-2">
           <span className="h-1.5 w-1.5 rounded-full bg-amber" />

@@ -10,6 +10,7 @@ interface Particle {
   angleJitter: number;
   colorT: number; // 0 = core (bright), 1 = outer edge (dim)
   size: number;
+  accent: boolean; // rare cool-toned "sparkle" star among the warm spiral
   // live simulation state
   x: number;
   y: number;
@@ -33,6 +34,11 @@ const IDLE_MS = 2000;
 
 const CORE_COLOR = [255, 214, 150]; // bright warm amber/gold core
 const EDGE_COLOR = [214, 220, 232]; // soft white/silver toward the arm tips
+const ACCENT_COLORS = [
+  [125, 211, 252], // soft cyan-blue sparkle
+  [216, 180, 254], // faint violet sparkle
+];
+const ACCENT_CHANCE = 0.07;
 
 function lerpColor(t: number) {
   const r = CORE_COLOR[0] + (EDGE_COLOR[0] - CORE_COLOR[0]) * t;
@@ -81,8 +87,8 @@ export default function HeroGalaxy() {
     }
 
     function buildParticles() {
-      const count = isMobile ? 220 : 950;
-      maxRadius = Math.min(width, height) * (isMobile ? 0.62 : 0.46);
+      const count = isMobile ? 340 : 1200;
+      maxRadius = Math.min(width, height) * (isMobile ? 0.4 : 0.46);
       // a gentler growth rate (bigger starting radius `a`) keeps the log
       // spiral from cramming half the particles into the innermost 15% of
       // the radius — that reads as a blob, not arms.
@@ -105,7 +111,8 @@ export default function HeroGalaxy() {
           radiusJitter: (Math.random() - 0.5) * localR * 0.5,
           angleJitter: (Math.random() - 0.5) * 0.4,
           colorT: Math.min(1, theta / MAX_THETA + Math.random() * 0.15),
-          size: 0.6 + Math.random() * 1.3,
+          size: 0.7 + Math.random() * 1.5,
+          accent: Math.random() < ACCENT_CHANCE,
           x: 0,
           y: 0,
           vx: 0,
@@ -133,7 +140,7 @@ export default function HeroGalaxy() {
       canvas!.style.height = `${height}px`;
       ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
       centerX = width * (isMobile ? 0.5 : 0.68);
-      centerY = height * (isMobile ? 0.42 : 0.5);
+      centerY = height * (isMobile ? 0.21 : 0.5);
       buildParticles();
     }
 
@@ -220,20 +227,22 @@ export default function HeroGalaxy() {
           p.y = home.y;
         }
 
-        const color = lerpColor(p.colorT);
-        const alpha = 0.85 - p.colorT * 0.55;
+        const color = p.accent
+          ? ACCENT_COLORS[p.colorT > 0.5 ? 1 : 0].join(",")
+          : lerpColor(p.colorT);
+        const alpha = (p.accent ? 0.95 : 0.92) - p.colorT * 0.45;
 
         // cheap glow: a soft low-alpha halo behind a crisp core, instead of
         // ctx.shadowBlur — shadowBlur per-shape is very expensive at this
         // particle count and tanks frame rate.
         ctx!.beginPath();
-        ctx!.fillStyle = `rgba(${color},${alpha * 0.25})`;
-        ctx!.arc(p.x, p.y, p.size * 2.6, 0, Math.PI * 2);
+        ctx!.fillStyle = `rgba(${color},${alpha * (p.accent ? 0.4 : 0.32)})`;
+        ctx!.arc(p.x, p.y, p.size * (p.accent ? 3.2 : 2.6), 0, Math.PI * 2);
         ctx!.fill();
 
         ctx!.beginPath();
         ctx!.fillStyle = `rgba(${color},${alpha})`;
-        ctx!.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx!.arc(p.x, p.y, p.accent ? p.size * 1.15 : p.size, 0, Math.PI * 2);
         ctx!.fill();
       }
 
@@ -257,7 +266,7 @@ export default function HeroGalaxy() {
   return (
     <div
       ref={containerRef}
-      className="absolute inset-0 touch-none"
+      className="absolute inset-0 touch-pan-y"
       aria-hidden="true"
     >
       <canvas ref={canvasRef} className="absolute inset-0" />
