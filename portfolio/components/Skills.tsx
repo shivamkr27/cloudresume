@@ -54,7 +54,7 @@ const SKILL_GROUPS = [
   },
   {
     label: "Generative AI",
-    skills: ["LangChain", "LangGraph", "ChromaDB", "Sentence Transformers", "Chainlit"],
+    skills: ["LangChain", "LangGraph", "ChromaDB", "Sentence Transformers"],
   },
   {
     label: "Observability & Security",
