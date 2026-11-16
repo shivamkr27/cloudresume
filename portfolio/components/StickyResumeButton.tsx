@@ -5,7 +5,7 @@ import { withBasePath } from "@/lib/basePath";
 export default function StickyResumeButton() {
   return (
     <a
-      href={withBasePath("/resume/Shivam_Kumar_Resume.pdf")}
+      href={withBasePath("/resume/resume.pdf")}
       download
       aria-label="Download resume"
       className="fixed bottom-4 right-4 z-50 flex h-11 w-11 items-center justify-center rounded-full border border-amber/50 bg-ink/90 text-amber backdrop-blur transition-colors duration-200 hover:bg-amber hover:text-ink sm:h-auto sm:w-auto sm:gap-2 sm:px-4 sm:py-2.5 md:bottom-8 md:right-8"
