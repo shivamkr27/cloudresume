@@ -89,7 +89,7 @@ export default function Footer() {
             </p>
 
             <a
-              href={withBasePath("/resume/Shivam-Kumar-Resume.pdf")}
+              href={withBasePath("/resume/Shivam_Kumar_Resume.pdf")}
               download
               className="w-fit rounded-full border border-amber px-6 py-3 font-mono text-xs uppercase tracking-widest text-amber transition-colors duration-200 hover:bg-amber hover:text-ink"
             >

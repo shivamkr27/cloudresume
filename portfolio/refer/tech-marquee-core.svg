@@ -1,0 +1,44 @@
+<svg viewBox="0 0 900 60" width="100%" height="60" xmlns="http://www.w3.org/2000/svg">
+<rect width="100%" height="100%" fill="none"/>
+<g>
+<animateTransform attributeName="transform" type="translate" from="0 0" to="-1292 0" dur="24s" repeatCount="indefinite"/>
+<image href="https://skillicons.dev/icons?i=java" x="0" y="6" width="48" height="48"/>
+<image href="https://skillicons.dev/icons?i=py" x="68" y="6" width="48" height="48"/>
+<image href="https://skillicons.dev/icons?i=js" x="136" y="6" width="48" height="48"/>
+<image href="https://skillicons.dev/icons?i=react" x="204" y="6" width="48" height="48"/>
+<image href="https://skillicons.dev/icons?i=tailwind" x="272" y="6" width="48" height="48"/>
+<image href="https://skillicons.dev/icons?i=nodejs" x="340" y="6" width="48" height="48"/>
+<image href="https://skillicons.dev/icons?i=express" x="408" y="6" width="48" height="48"/>
+<image href="https://skillicons.dev/icons?i=postgres" x="476" y="6" width="48" height="48"/>
+<image href="https://skillicons.dev/icons?i=redis" x="544" y="6" width="48" height="48"/>
+<image href="https://skillicons.dev/icons?i=docker" x="612" y="6" width="48" height="48"/>
+<image href="https://skillicons.dev/icons?i=kubernetes" x="680" y="6" width="48" height="48"/>
+<image href="https://skillicons.dev/icons?i=terraform" x="748" y="6" width="48" height="48"/>
+<image href="https://skillicons.dev/icons?i=githubactions" x="816" y="6" width="48" height="48"/>
+<image href="https://skillicons.dev/icons?i=jenkins" x="884" y="6" width="48" height="48"/>
+<image href="https://skillicons.dev/icons?i=aws" x="952" y="6" width="48" height="48"/>
+<image href="https://skillicons.dev/icons?i=nginx" x="1020" y="6" width="48" height="48"/>
+<image href="https://skillicons.dev/icons?i=linux" x="1088" y="6" width="48" height="48"/>
+<image href="https://skillicons.dev/icons?i=git" x="1156" y="6" width="48" height="48"/>
+<image href="https://skillicons.dev/icons?i=github" x="1224" y="6" width="48" height="48"/>
+<image href="https://skillicons.dev/icons?i=java" x="1292" y="6" width="48" height="48"/>
+<image href="https://skillicons.dev/icons?i=py" x="1360" y="6" width="48" height="48"/>
+<image href="https://skillicons.dev/icons?i=js" x="1428" y="6" width="48" height="48"/>
+<image href="https://skillicons.dev/icons?i=react" x="1496" y="6" width="48" height="48"/>
+<image href="https://skillicons.dev/icons?i=tailwind" x="1564" y="6" width="48" height="48"/>
+<image href="https://skillicons.dev/icons?i=nodejs" x="1632" y="6" width="48" height="48"/>
+<image href="https://skillicons.dev/icons?i=express" x="1700" y="6" width="48" height="48"/>
+<image href="https://skillicons.dev/icons?i=postgres" x="1768" y="6" width="48" height="48"/>
+<image href="https://skillicons.dev/icons?i=redis" x="1836" y="6" width="48" height="48"/>
+<image href="https://skillicons.dev/icons?i=docker" x="1904" y="6" width="48" height="48"/>
+<image href="https://skillicons.dev/icons?i=kubernetes" x="1972" y="6" width="48" height="48"/>
+<image href="https://skillicons.dev/icons?i=terraform" x="2040" y="6" width="48" height="48"/>
+<image href="https://skillicons.dev/icons?i=githubactions" x="2108" y="6" width="48" height="48"/>
+<image href="https://skillicons.dev/icons?i=jenkins" x="2176" y="6" width="48" height="48"/>
+<image href="https://skillicons.dev/icons?i=aws" x="2244" y="6" width="48" height="48"/>
+<image href="https://skillicons.dev/icons?i=nginx" x="2312" y="6" width="48" height="48"/>
+<image href="https://skillicons.dev/icons?i=linux" x="2380" y="6" width="48" height="48"/>
+<image href="https://skillicons.dev/icons?i=git" x="2448" y="6" width="48" height="48"/>
+<image href="https://skillicons.dev/icons?i=github" x="2516" y="6" width="48" height="48"/>
+</g>
+</svg>

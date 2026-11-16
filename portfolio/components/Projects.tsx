@@ -10,21 +10,18 @@ import { withBasePath } from "@/lib/basePath";
 const PROJECTS = [
   {
     id: "01",
-    name: "InsightEngine",
-    hook: "A multi-agent RAG system that reasons in hops, not guesses.",
-    tags: ["LangGraph", "Hybrid RAG", "Groq Llama 3.3", "FastAPI", "OCI"],
-    github: "https://github.com/shivamkr27/Insight-engine-agent",
-    live: "http://80.225.212.121:8000",
+    name: "FinOps GreenOps Engine",
+    hook: "Carbon-aware Kubernetes scaling that makes cost and sustainability visible.",
+    tags: ["Kubernetes", "Kubecost", "Prometheus", "Grafana", "Karpenter"],
+    github: "https://github.com/shivamkr27/cloud-native-finops-greenops-engine-",
     images: [
-      "/projects/insightengine/01.png",
-      "/projects/insightengine/02.png",
-      "/projects/insightengine/03.png",
-      "/projects/insightengine/04.png",
+      "/projects/finops-greenops/01-dashboard-dirty.png",
+      "/projects/finops-greenops/02-dashboard-clean-grid.png",
     ],
     bullets: [
-      "Multi-agent RAG in LangGraph with parallel agent fan-out, human-in-the-loop clarification, and 4-route query classification via Pydantic structured outputs.",
-      "Hybrid retrieval — ChromaDB dense search + BM25 with adaptive weighting per query type, cross-encoder reranking, and a Corrective RAG loop with automatic query rewriting.",
-      "LLM-as-judge hallucination scoring, Hindi-mode output, and 159 automated tests; containerized with Docker and deployed on OCI via GitHub Actions behind a Caddy HTTPS proxy.",
+      "Built a local Kubernetes FinOps and GreenOps platform with a Flask dashboard, Prometheus metrics, modeled energy telemetry, and waste visibility for unused persistent volumes and orphan namespaces.",
+      "Implemented carbon-aware scaling that moves the batch workload between 1 and 5 replicas from a configurable grid-intensity policy, with a CronJob, RBAC, and live deployment status.",
+      "Added Karpenter-compatible Spot/consolidation templates and a Docker + Minikube workflow that runs without cloud spend; policy behavior is covered by automated unit tests.",
     ],
   },
   {
